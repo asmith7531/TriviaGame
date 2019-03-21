@@ -1,0 +1,17 @@
+.question {
+  font-size: 16px;
+  line-height: 32px;
+}
+.answers{
+  justify-content: space-around;
+  display: flex;
+}
+.incorrectAnswer1, .incorrectAnswer2, .incorrectAnswer0 {
+  margin:10%;
+  
+}
+.correctAnswers{
+ 
+  margin:10%;
+ 
+}
