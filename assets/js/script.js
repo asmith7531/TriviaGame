@@ -3,7 +3,8 @@ let answers = undefined;
 var correct = 0;
 var incorrect = 0;
 let i = 0;
-var keys = ["eea64161e14cdb72f109f54efd7c0faaaf6722588d40767af1033f7dcd194159","b97cd7530367f7ff9b7074e7e5eb2b203005cfc3cd924b5116ac1a536a7c0edc","98cf9e0421040c2fd6085b415d926d208cad97834f003e2faacd545e30e23315","5eb1904155f9e7c47010772ec9778d100d1983ab6c0e0eafa00ffca3ba92743c"]
+var keys = [ "a8f9f9b3ad5b1308b346724e6c68e3fa57a32a9e51f5fe1a5e0586c43e40c297"]
+
 var random = Math.floor(Math.random()*keys.length)
 //rearranges arrays using some old dudes algorithm
 
@@ -23,13 +24,16 @@ $.ajax ({
     begin();
     event.preventDefault();
   })
-
+  function reset(){
+    $(".answerBtn").remove();
+    $(".question").remove();
+    getQuestion();
+  }
   function iscorrect(){
     alert("Correct!");
     reset();
     correct++
     $(".correct").text("Correct Answers: " + correct);
-    getQuestion();
   }
   
   function iswrong(){
@@ -37,9 +41,8 @@ $.ajax ({
    reset();
     incorrect++
     $(".incorrect").text("Incorrect Answers:" + incorrect);
-    getQuestion();
   }
-
+  
   $(document).on("click", ".right", iscorrect)
   $(document).on("click", ".wrong", iswrong)
 
@@ -68,7 +71,8 @@ function writeElements()  {
   }
 }
 }
-setTimeout(writeElements(),5000);
+setTimeout(writeElements,2000);
+setTimeout(incorrect,35000)
 }
   function begin()  {
     $('#startBtn').remove();
