@@ -1,10 +1,12 @@
 .question {
   font-size: 24px;
   line-height: 32px;
+  
 }
 .answers{
   justify-content: space-around;
   display: flex;
+  padding: 1%;
 }
 button::hover{
   background:#B22803;
@@ -20,10 +22,12 @@ button::hover{
 .correct{
   background: #65AD0F;
   color: white;
+  padding: 1%;
 }
 .incorrect{
   background:#B22803;
   color:white;
+  padding: 1%;
 }
 .display-3{
   justify-content: space-around;
@@ -49,13 +53,18 @@ body{
  background: #0030CC;
  margin-left:20%;
  margin-right:20%;
+ margin-top:3%;
+ margin-bottom:3%;
  
 }
 .score{
   background: #435DB2;
   padding:2%;
 }
+
 .text{color: white}
-question{
-  margin:10%
+.x{
+  height: 300px;
+  background: #435DB2;
+  
 }
