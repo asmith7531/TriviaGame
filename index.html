@@ -15,29 +15,28 @@
   <body>
 
     <div class="jumbotron">
-      <h1 class="display-3">Trivial Trivia</h1>
-      <p class="lead"></p>
+      <h1 class="display-3">Totally Trivial Trivia</h1>
+      
       <hr class="my-2">
-      <p></p>
+      <div class="lead" id="clock"></div>
       <p class="lead">
+          
         <a class="btn btn-primary btn-lg" id="startBtn"href="" role="button">Start</a>
       </p>
     </div>
 
     <div class="container">
-      <div class="correct"></div>
-      <div class="incorrect" value="0"></div>
+      <div class="score">
+        <div class="correct">Correct: </div>
+        <div class="incorrect" value="0">Incorrect: </div>
+      </div>
       <question>
-          <div id="clock"></div>
-          <div class="questions"></div>
-          <div class="answers"></div>
+        <div class="questions"></div>
+        <div class="answers"></div>
       </question>
-
+      
     </div>
-    <script
-  src="http://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="assets/js/script.js" async defer></script>
   </body>
 </html>
