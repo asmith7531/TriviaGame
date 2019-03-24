@@ -15,98 +15,124 @@ var url = "https://opentdb.com/api_token.php?command=request"
 var token= undefined;
 
 //makes the request and sets the var "token" to the json parameter that is the token
-$.ajax ({
 
-  method:"GET",
+//rearranges arrays using the sort method
+function randomShuffle(array){
+  array.sort(()=>Math.random()-0.5)
+}
 
-  url: url
-//promise that waits until the ajax query is finished loading 
-}).then(function(response){
-  //sets the token var equal to the "token" parameter of the response from the token request ajax query
-  token = response.token;
+//adds event listener for clicks to our start button
+$("#startBtn").on("click", function(event) {
+  //calling the begin function to write a question, the answers, and the timer to the DOM
+  begin();
+  var countDown = setInterval(startCount,1000);
+  //prevents the above code from executing until clicked
+  event.preventDefault();
+})
 
-  console.log(token)
+//reset function resets the question and answers to the next question in the response array
+function reset(){
+  //removes the dynamically created answer buttons
+  $(".answerBtn").remove();
+  //removes the dynamically created question 
+  $(".question").remove();
+  //calls the getQuestion function so we can see a new question and answer appear
+  getQuestion();
+}
 
-  //ajax query to the trivia api for an unfiltered response that is 50 objects long
+//iscorrect function alerts the user that their answer was correct, increments the correct score and calls reset()
+function iscorrect(){
+  //alerts the user they chose the correct answer
+  
+  //calls the reset function
+  reset();
+  
+  correct++
+  
+  // $(".correct").text("Correct Answers: " + correct);
+  $(".correct").text("Correct: " + correct)
+}
+
+//this alerts the user that their answer was incorrect, increments the incorrect score and calls reset()
+function iswrong(){
+  
+  reset();
+  
+  incorrect++
+  
+  $(".incorrect").text("Incorrect: " + incorrect);
+}
+
+$(document).on("click", ".right", iscorrect)
+
+$(document).on("click", ".wrong", iswrong)
+
+
+
+function startCount(){
+  
+  time--;
+  
+  $("#clock").text(time);
+  
+  if(time===-1){
+    
+    alert("You ran out of time... Next Question!");
+    
+    incorrect ++
+    
+    $(".incorrect").text("Incorrect Answers:" + incorrect);
+    
+    reset()
+  }
+}
+//starts the startCount function and sets it to repeat one time per second
+
+function begin()  {
+  correct = 0;
+  incorrect = 0;
+  reset();
+  $('#startBtn').remove();
+}
+
+function getQuestion(){
+  
   $.ajax ({
-
+  
     method:"GET",
-
+  
+    url: url
+  //promise that waits until the ajax query is finished loading 
+  }).then(function(response){
+    //sets the token var equal to the "token" parameter of the response from the token request ajax query
+    token = response.token;
+  
+    console.log(token)
+  
+    //ajax query to the trivia api for an unfiltered response that is 50 objects long
+    
+    console.log(response);
+    
+    console.log(i)
+  $.ajax ({
+    
+    method:"GET",
+    
     //adds the api parameter request and the token 
     url: "https://opentdb.com/api.php?amount=50&token="+token
-
-  //promise callback function
+    
+    //promise callback function
   }).then( function (response) {
-
-    console.log(response);
-
-    console.log(i)
-
-    //rearranges arrays using the sort method
-    function randomShuffle(array){
-      array.sort(()=>Math.random()-0.5)
-    }
-
-    //adds event listener for clicks to our start button
-    $("#startBtn").on("click", function(event) {
-      //calling the begin function to write a question, the answers, and the timer to the DOM
-      begin();
-
-      //prevents the above code from executing until clicked
-      event.preventDefault();
-    })
-
-    //reset function resets the question and answers to the next question in the response array
-    function reset(){
-      //removes the dynamically created answer buttons
-      $(".answerBtn").remove();
-      //removes the dynamically created question 
-      $(".question").remove();
-      //calls the getQuestion function so we can see a new question and answer appear
-      getQuestion();
-    }
-
-    //iscorrect function alerts the user that their answer was correct, increments the correct score and calls reset()
-    function iscorrect(){
-      //alerts the user they chose the correct answer
-     
-      //calls the reset function
-      reset();
-
-      correct++
-
-      // $(".correct").text("Correct Answers: " + correct);
-      $(".correct").text("Correct: " + correct)
-    }
-
-    //this alerts the user that their answer was incorrect, increments the incorrect score and calls reset()
-    function iswrong(){
+    var questionAPI = JSON.stringify(response.results[i].question);
     
-      reset();
-      
-      incorrect++
-  
-      $(".incorrect").text("Incorrect: " + incorrect);
-    }
-    
-    $(document).on("click", ".right", iscorrect)
-    
-    $(document).on("click", ".wrong", iswrong)
-
-   
-
-  function getQuestion(){
-   
-    var questionAPI = response.results[i].question;
-   
     var rightAPI = response.results[i].correct_answer;
-   
+    
     var wrong1API = response.results[i].incorrect_answers[0];
-   
+    
     var wrong2API = response.results[i].incorrect_answers[1];
-   
+    
     var wrong3API = response.results[i].incorrect_answers[2];
-   
+    
     //increases var i (our iterator defined in the global scope) so that the next question will be next in the JSON string 
     i++
     //sets the time equal to 31 seconds so that when it appears in the html the counter displays 30 seconds due to the 1000 ms timout
@@ -128,63 +154,42 @@ $.ajax ({
     
       if(answers[i]===rightAPI){
     
-        $(".answers").append($("<button>").addClass("answerBtn right").text(answers[i]))  
+        $(".answers").append($("<button>").addClass("answerBtn right btn btn-dark btn-lg").text(answers[i]))  
       }
     
       else{
     
-        $(".answers").append($("<button>").addClass("answerBtn wrong").text(answers[i]))    
+        $(".answers").append($("<button>").addClass("answerBtn wrong btn btn-dark btn-lg").text(answers[i]))    
       }
     }
   }
-    //calls the writeElements function after 1 second from parse 
-    setTimeout(writeElements,1000);
+   //calls the writeElements function after 1 second from parse 
+   writeElements();
 
-    function startCount(){
-      
-      time--;
-    
-      $("#clock").text(time);
-
-      if(time===-1){
-
-        alert("You ran out of time... Next Question!");
-
-        incorrect ++
-
-        $(".incorrect").text("Incorrect Answers:" + incorrect);
-        
-        reset()
-      }
-  }
-    //starts the startCount function and sets it to repeat one time per second
-    var countDown = setInterval(startCount,1000);
-
-    $(".answerBtn").click(function(){
-
-      clearInterval(countDown)
+   $(".answerBtn").click(function(){
     })
 
     if(correct===10){
+
       alert("You Win!")
+
+      $(".correct").text("Correct:");
+
+      (".incorrect").text("Incorrect:");
+
       begin();
     }
     else if(incorrect===10){
+
       alert("You Lose!")
+
+      $(".correct").text("Correct:");
+
+      $(".incorrect").text("Incorrect:");
+
       begin();
     }
-
-
-  }
-  function begin()  {
-    correct = 0;
-    incorrect = 0;
-
-    $('#startBtn').remove();
-    
-    getQuestion();
-
-    }
+  })
 })
-})
+}
 
