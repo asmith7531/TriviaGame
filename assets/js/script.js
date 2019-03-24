@@ -14,7 +14,7 @@ var url = "https://opentdb.com/api_token.php?command=request"
 
 var token= undefined;
 
-//makes the request and sets the var "token" to the json parameter that is the token
+
 
 //rearranges arrays using the sort method
 function randomShuffle(array){
@@ -42,8 +42,6 @@ function reset(){
 
 //iscorrect function alerts the user that their answer was correct, increments the correct score and calls reset()
 function iscorrect(){
-  //alerts the user they chose the correct answer
-  
   //calls the reset function
   reset();
   
@@ -62,13 +60,12 @@ function iswrong(){
   
   $(".incorrect").text("Incorrect: " + incorrect);
 }
-
+//adds click event listeners to the right and wrong answers
 $(document).on("click", ".right", iscorrect)
-
 $(document).on("click", ".wrong", iswrong)
 
 
-
+//my counter
 function startCount(){
   
   time--;
@@ -153,17 +150,17 @@ function getQuestion(){
     for (var i = 0; i < answers.length; i++) {
     
       if(answers[i]===rightAPI){
-    
-        $(".answers").append($("<button>").addClass("answerBtn right btn btn-dark btn-lg").text(answers[i]))  
+    //tried to replace the quotes and apostrophes as i added the text, if i had more time i would make them variables replace them then .text() the strings to the DOM
+        $(".answers").append($("<button>").addClass("answerBtn right btn btn-dark btn-lg").text(answers[i].replace(/&quot;/, "\\").replace(/&#039;/, '\\')))  
       }
-    
+      
       else{
     
-        $(".answers").append($("<button>").addClass("answerBtn wrong btn btn-dark btn-lg").text(answers[i]))    
+        $(".answers").append($("<button>").addClass("answerBtn wrong btn btn-dark btn-lg").text(answers[i].replace(/&quot;/, "\\").replace(/&#039;/, '\\') ))    
       }
     }
   }
-   //calls the writeElements function after 1 second from parse 
+   
    writeElements();
 
    $(".answerBtn").click(function(){
